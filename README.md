@@ -3,7 +3,7 @@
 Code for logging events in Unity games/apps to [PostHog](https://posthog.com/).
 
 
-Originally forked from Gamefound PostHog.Net(https://github.com/Gamefound/PostHog.NET)
+Originally forked from [Gamefound PostHog.Net](https://github.com/Gamefound/PostHog.NET)
 
 ## Usage example
 
