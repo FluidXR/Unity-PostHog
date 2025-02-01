@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using PostHog;
 using PostHog.Model;
-using Unity.XR.Oculus;
 using UnityPosthog.Utilities;
 
 namespace UnityPosthog.Analytics
@@ -16,30 +15,10 @@ namespace UnityPosthog.Analytics
         public readonly static IPostHogClient posthogClient = new PostHogClient("<YOUR POSTHOG TOKEN>"); // NEVER EVER USE THIS DIRECTLY, ALWAYS USE THE TRACK FUNCTION!!!
         public static string UserID;
         public static bool initialized = false;
-        
-        public static void ToggleDeveloper()
-        {
-            developer = !developer;
-            SetDev(developer);
-        }
 
         public static void SetSessionStartTime(DateTime startTime)
         {
             SessionStartTime = startTime;
-        }
-
-        private static void SetDev(bool isDev)
-        {
-            if (isDev)
-            {
-                // button.image.color = OnColor;
-                PlayerPrefs.SetInt("developer", 1);
-            }
-            else
-            {
-                // button.image.color = Color.white;
-                PlayerPrefs.SetInt("developer", 0);
-            }
         }
 
         public static void Track(string eventName, Properties? properties = null, DateTime? timestamp = null)
@@ -59,8 +38,6 @@ namespace UnityPosthog.Analytics
             }
             properties = AnalyticsTracker.makeProperties(newProperties);
             posthogClient.Capture(UserID, eventName, properties, timestamp);
-
-            // Debug.Log("KKLOG: " + eventName + " " + properties);
         }
 
         public static void CheckAndSetUserInfo()
@@ -70,23 +47,6 @@ namespace UnityPosthog.Analytics
                 return;
             }
             string HashedDeviceId = IdentifierHasher.HashIdentifier(SystemInfo.deviceUniqueIdentifier);
-            
-            var headsetType = Utils.GetSystemHeadsetType();
-
-            // cast headset type to string. Then map 11 : Quest 3, 9 : Quest 2, 10: Quest Pro.
-            string headsetTypeString = headsetType.ToString();
-            if (headsetTypeString == "11")
-            {
-                headsetTypeString = "Quest 3";
-            }
-            else if (headsetTypeString == "9")
-            {
-                headsetTypeString = "Quest 2";
-            }
-            else if (headsetTypeString == "10")
-            {
-                headsetTypeString = "Quest Pro";
-            }
 
             Debug.Log("Headset Type Clean: " + headsetType.ToString());
 
