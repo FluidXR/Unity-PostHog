@@ -94,6 +94,7 @@ namespace UnityPosthog.Analytics
             if (PlayerPrefs.HasKey("UserID"))
             {
                 UserID = PlayerPrefs.GetString("UserID");
+                // You can modify the properties here that get associated with each user. When they log in, these properties will be updated on their profile in Posthog
                 Identify(UserID, makeProperties(null, null, new Dictionary<string, object> { {"user_id", UserID}, {"device_id", HashedDeviceId}, {"headset_type", headsetType}}));
                 Track(AnalyticsEvents.UsageEvents.AppOpened);
             }
