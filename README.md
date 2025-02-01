@@ -1,4 +1,4 @@
-# PosthogForUnity
+# Unity-Posthog
 
 Code for logging events in Unity games/apps to [PostHog](https://posthog.com/).
 
