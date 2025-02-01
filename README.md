@@ -19,3 +19,5 @@ AnalyticsTracker.Track("usage_event/example_event_with_properties"),
 
 
 ```
+
+When UnityPosthog is first imported and used, User will be Identified and created in PostHog. You can modify what user properties they get in `AnalyticsTracker.cs`.
