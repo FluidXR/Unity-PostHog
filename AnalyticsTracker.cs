@@ -48,23 +48,23 @@ namespace UnityPosthog.Analytics
             }
             string HashedDeviceId = IdentifierHasher.HashIdentifier(SystemInfo.deviceUniqueIdentifier);
 
-            Debug.Log("Headset Type Clean: " + headsetType.ToString());
 
             // check playerprefs for user id, if none exists, generate one and save it
             if (PlayerPrefs.HasKey("UserID"))
             {
                 UserID = PlayerPrefs.GetString("UserID");
                 // You can modify the properties here that get associated with each user. When they log in, these properties will be updated on their profile in Posthog
-                Identify(UserID, makeProperties(null, null, new Dictionary<string, object> { {"user_id", UserID}, {"device_id", HashedDeviceId}, {"headset_type", headsetType}}));
-                Track(AnalyticsEvents.UsageEvents.AppOpened);
+                Identify(UserID, makeProperties(null, null, new Dictionary<string, object> { {"user_id", UserID}, {"device_id", HashedDeviceId}}));
+                Track("app_opened");
             }
             else
             {
                 // if it is the first time opening the app
                 UserID = Guid.NewGuid().ToString();
                 PlayerPrefs.SetString("UserID", UserID);
-                Identify(UserID, makeProperties(null, null, new Dictionary<string, object> { {"user_id", UserID}, {"device_id", HashedDeviceId}, {"headset_type", headsetType}}));
-                Track(AnalyticsEvents.Onboarding.AppFirstOpened);
+                Identify(UserID, makeProperties(null, null, new Dictionary<string, object> { {"user_id", UserID}, {"device_id", HashedDeviceId}}));
+                Track("app_first_opened");
+                Track("app_opened");
 
             }
             initialized = true;
@@ -104,19 +104,6 @@ namespace UnityPosthog.Analytics
             return new Properties(
                 eventProperties??new Dictionary<string, object>()
                 );
-        }
-
-        public static void PauseSession()
-        {
-            Debug.Log("Pausing session");
-            Track(AnalyticsEvents.UsageEvents.AppPaused);
-        }
-
-        public static void ResumeSession()
-        {
-            Debug.Log("Resuming session");
-            Track(AnalyticsEvents.UsageEvents.AppResumed);
-            SessionStartTime = DateTime.Now;
         }
     }
 }
